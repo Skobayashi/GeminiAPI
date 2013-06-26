@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+        <title>GeminiAPI</title>
+
+        <link href="/resources/css/bootstrap-responsive.min.css" rel="stylesheet" />
+        <link href="/resources/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="/resources/css/google-bootstrap.css" rel="stylesheet" />
+
+        <style>
+            html, body {
+                padding: 15px;
+            }
+
+            div.blank {
+                margin: 40px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h1 class="text-center text-info">GeminiAPIキー管理</h1>
+
+        <form action="/index/generateclient" method="post">
+            <input type="text" name="client" />
+            <input class="btn btn-primary" type="submit" value="クライアント追加" />
+        </form>
+
+        <div class="blank"></div>
+        <div class="blank"></div>
+
+        <table class="table table-striped apikey-table" style="font-size:1.4em;">
+            <tbody>
+                <tr>
+                    <th>Client</th>
+                    <th>APIキー</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <?php foreach($this->results as $result): ?>
+                <tr>
+                    <td><?php echo $result->client ?></td>
+                    <td><?php echo $result->key ?></td>
+                    <td>
+                        <form action="/index/generatekey?id=<?php echo $result->id ?>" method="post">
+                            <input class="btn" type="submit" value="APIキーの更新" />
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/index/deleteclient?id=<?php echo $result->id ?>" method="post">
+                            <input class="btn btn-danger" type="submit" value="クライアントの削除" onclick="return confirm('削除しますか？')" />
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+    </body>
+</html>
+
