@@ -86,7 +86,10 @@ class ApiKeyTable implements TableInterface
     public final function delete (AbstractModel $model)
     {
         try {
-            $record = $model->getRecord();
+            $sql = 'DELETE FROM apikey
+                WHERE apikey.id = ?';
+
+            $this->db->state($sql, $model->get('id'));
         
         } catch (\Exception $e) {
             throw $e;
@@ -196,9 +199,10 @@ class ApiKeyTable implements TableInterface
     {
         try {
             $sql = 'UPDATE apikey
-                SET apikey.key = ?';
+                SET apikey.key = ?
+                WHERE apikey.id = ?';
 
-            $this->db->state($sql, $key);
+            $this->db->state($sql, array($key, $id));
         
         } catch (\Exception $e) {
             throw $e;

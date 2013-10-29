@@ -112,50 +112,34 @@ class IndexController extends \Zend_Controller_Action
 
 
     /**
-     * バーコード値から素材を取得する
+     * クライアントを削除する
      *
-     * @author app2641
+     * @author suguru
      **/
-    public function getmaterialidAction ()
+    public function deleteclientAction ()
     {
         try {
-            $this->_isPostRequest();
-
-            // Postされたリクエストパラメータを精査する
-            $this->_validatePostParameters(array(
-                'key', 'level', 'code', 'secret', 'rare'
-            ));
-
+            $db = Helper::getConnection('db');
+            $db->beginTransaction();
 
             $request = $this->getRequest();
-            $params  = array(
-                'key'    => $request->getParam('key'),
-                'level'  => $request->getParam('level'),
-                'code'   => $request->getParam('code'),
-                'secret' => $request->getParam('secret'),
-                'rare'   => $request->getParam('rare')
-            );
 
-            // コンテナからテーブルオブジェクトを取得する
-            $container   = new Container(new ModelFactory);
-            $chain_model = $container->get('ChainModel');
-
-
-            // api_keyが存在するキーがどうか
-            if (! $chain_model->isExistsApiKey($params['key'])) {
-                throw new \Exception(sprintf(
-                    '%sは存在しないAPIキー', $params['key']
-                ));
+            if (! $request->isPost()) {
+                throw new \Exception('not PostRequest!');
             }
 
+            
+            $model = $this->container->get('ApiKeyModel');
+            $model->fetchById($request->getParam('id'));
+            $model->delete();
 
-            // 素材情報を取得する
-            $result = $this->api->getMaterialId($params);
-
+            $db->commit();
+        
         } catch (\Exception $e) {
-            $result = ApiException::invoke($e);
+            $db->rollBack();
+            throw $e;
         }
 
-        $this->_outputJson($result);
+        $this->_redirect('/');
     }
 }

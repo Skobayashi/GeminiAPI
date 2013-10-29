@@ -46,7 +46,7 @@ abstract class AbstractModel
      **/
     public final function delete ()
     {
-        $thia->table->delete($this);
+        $this->table->delete($this);
     }
 
 
