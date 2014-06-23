@@ -2,19 +2,21 @@
 
 set_include_path('../library' . PATH_SEPARATOR . get_include_path());
 
-require_once 'Zend/Application.php';
-require_once 'Zend/Loader/Autoloader.php';
+// 環境変数
+defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
+defined('ROOT_PATH') || define('ROOT_PATH', realpath(dirname(__FILE__) . '/../'));
+defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : "development"));
+
+require_once ROOT_PATH.'/library/composer/vendor/autoload.php';
+
+use Zend\Application;
+use Zend\Loader\Autoloader;
 
 // autoloaderインスタンス化
 $autoloader = Zend_Loader_Autoloader::getInstance();
 $autoloader->unregisterNamespace(array('Zend_', 'ZendX_'))
            ->setFallbackAutoloader(true);
 
-
-// 環境変数
-defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
-defined('ROOT_PATH') || define('ROOT_PATH', realpath(dirname(__FILE__) . '/../'));
-defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : "development"));
 
 
 $application = new Zend_Application(

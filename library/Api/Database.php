@@ -57,6 +57,15 @@ class Database extends \PDO
             $bind = array($bind);
         }
 
+        // mysql strict mode 対策　STRICT_TRANS_TABLES、STRICT_ALL_TABLES
+        // http://dev.mysql.com/doc/refman/5.1/ja/server-sql-mode.html
+        // booleanをintに変更
+        foreach($bind as $k => $v) {
+            if (is_bool($v) === true) {
+                $bind[$k] = (int)$v;
+            }
+        }
+
 
         $stmt = $this->prepare($sql);
         $stmt->execute($bind);
