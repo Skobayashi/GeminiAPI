@@ -83,6 +83,7 @@ class SectionController extends \Zend_Controller_Action
             $model->setConnection($client);
 
             $txt = '';
+            $hit_sections = 0;
 
             foreach ($sections as $section) {
                 $result = $model->table->fetchByNameFull($section);
@@ -108,12 +109,19 @@ class SectionController extends \Zend_Controller_Action
                 }
                 
                 $model->updateStatus($to_status);
+                $hit_sections++;
             }
 
 
+            if ($hit_sections == 0) {
+                $msg = $txt.PHP_EOL.'該当するセクションは見つかりませんでした！';
+            } else {
+                $msg = $txt.PHP_EOL.$hit_sections.'件のセクションにAPIコールを実行しました！';
+            }
+
             $data = array(
                 'success' => true,
-                'msg' => $txt.PHP_EOL.'APIコールに成功しました！'
+                'msg' => $msg
             );
 
             $db->commit();

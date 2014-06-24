@@ -76,7 +76,7 @@ class IndexController extends \Zend_Controller_Action
     public function generatekeyAction()
     {
         try {
-            $db = Helper::getConnection('db');
+            $db = Helper::getConnection('api_db');
             $db->beginTransaction();
 
             $request = $this->getRequest();
@@ -119,7 +119,7 @@ class IndexController extends \Zend_Controller_Action
     public function deleteclientAction ()
     {
         try {
-            $db = Helper::getConnection('db');
+            $db = Helper::getConnection('api_db');
             $db->beginTransaction();
 
             $request = $this->getRequest();

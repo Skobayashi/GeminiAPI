@@ -1,13 +1,10 @@
-[db]
-db.dsn      = "mysql:dbname=geminiapi;host=localhost";
-db.username = "root"
-db.password = "root"
-db.charset  = "UTF8"
+[api_db]
+username = "root"
+password = "root"
+database = "geminiapi"
+host     = "localhost"
 
-[local_gemini]
-db.dsn      = "mysql:dbname=gemini2;host=localhost";
-db.username = "root"
-db.password = "root"
-db.charset  = "UTF8"
+[local_gemini:api_db]
+database = "gemini2"
 
 

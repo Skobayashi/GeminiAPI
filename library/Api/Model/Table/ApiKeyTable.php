@@ -21,7 +21,7 @@ class ApiKeyTable implements TableInterface
 
     public function __construct ()
     {
-        $this->db = Helper::getConnection('db');
+        $this->db = Helper::getConnection('api_db');
 
         $container = new Container(new ModelFactory);
         $this->fields = $container->get('ApiKeyFields');
