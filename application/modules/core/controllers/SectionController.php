@@ -98,12 +98,14 @@ class SectionController extends \Zend_Controller_Action
                 if ($to_status == $model::LOCK) {
                     if ($model->getStatus() == $model::LOCK) {
                         $txt .= $section.'は既にロック化されています'.PHP_EOL;
+                        $hit_sections++;
                         continue;
                     }
                 
                 } else {
                     if ($model->getStatus() != $model::LOCK) {
                         $txt .= $section.'は既にアンロック化されています'.PHP_EOL;
+                        $hit_sections++;
                         continue;
                     }
                 }
@@ -116,7 +118,7 @@ class SectionController extends \Zend_Controller_Action
             if ($hit_sections == 0) {
                 $msg = $txt.PHP_EOL.'該当するセクションは見つかりませんでした！';
             } else {
-                $msg = $txt.PHP_EOL.$hit_sections.'件のセクションにAPIコールを実行しました！';
+                $msg = $txt.PHP_EOL.$hit_sections.'件のセクションに対してAPIコールを実行しました！';
             }
 
             $data = array(
